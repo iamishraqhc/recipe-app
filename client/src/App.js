@@ -1,36 +1,32 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react'
 import Recipe from './Recipe';
+import axios from 'axios'
 import './App.css';
 
 const App = () => {
 
-  const APP_ID = "";
-  const APP_KEY = "";
-
-  const [recipes, setRecipes] = useState([]);
-  const [search, setSearch] = useState('');
-  const [query, setQuery] = useState('chicken');
-
-  const exampleReq = `https://api.edamam.com/search?q=${query}&app_id=${APP_ID}&app_key=${APP_KEY}`;
+  const [recipes, setRecipes] = useState([])
+  const [search, setSearch] = useState('')
+  const [query, setQuery] = useState('chicken')
 
   useEffect( () => {
-    getRecipes();
-  }, [query]);
+    getRecipes()
+  }, [query])
 
   const getRecipes = async () => {
-    const response = await fetch(exampleReq);
-    const data = await response.json();
-    setRecipes(data.hits);
+    const response = await axios.get(`http://localhost:5000/recipes/${query}`)
+    console.log(response.data)
+    setRecipes(response.data)
   };
 
   const updateSearch = e => {
-    setSearch(e.target.value);
+    setSearch(e.target.value)
   };
 
   const getSearch = e => {
-    e.preventDefault();
-    setQuery(search);
-    setSearch('');
+    e.preventDefault()
+    setQuery(search)
+    setSearch('')
   };
 
   return (
@@ -50,4 +46,4 @@ const App = () => {
   );
 }
 
-export default App;
+export default App
